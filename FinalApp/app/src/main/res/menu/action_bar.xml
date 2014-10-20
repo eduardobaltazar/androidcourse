@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="always"
+        android:title="@string/menu_navbar_opc1"/>
+
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_action_help"
+        android:showAsAction="always"
+        android:title="@string/menu_navbar_opc2"/>
+
+    <item
+        android:id="@+id/menu_replace"
+        android:showAsAction="collapseActionView"
+        android:title="@string/menu_navbar_opc3"/>
+
+    <item
+        android:id="@+id/menu_add"
+        android:showAsAction="collapseActionView"
+        android:title="@string/menu_navbar_opc4"/>
+
+</menu>
