@@ -32,4 +32,8 @@
     <string name="menu_navbar_opc2">About</string>
     <string name="menu_navbar_opc3">Replace</string>
     <string name="menu_navbar_opc4">Add</string>
+    <string name="menu_navbar_opc5">Exit</string>
+    <string name="title_activity_about">About</string>
+    <string name="about_head">About Final App</string>
+
 </resources>

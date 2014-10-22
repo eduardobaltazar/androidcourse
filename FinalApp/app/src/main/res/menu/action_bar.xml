@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_return"
+        android:icon="@drawable/ic_action_undo"
+        android:showAsAction="always"
+        android:title="@string/menu_navbar_opc5"/>
+
+    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:showAsAction="always"

@@ -10,7 +10,7 @@ import android.widget.TextView;
 public class DrawerAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    public String[] menu;
+    public static String[] menu;
 
     public DrawerAdapter(Context context){
         menu = new String[] {context.getResources().getString(R.string.menu_draw_opc1),
