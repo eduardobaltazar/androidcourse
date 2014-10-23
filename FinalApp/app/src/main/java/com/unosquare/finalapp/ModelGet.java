@@ -1,5 +1,7 @@
 package com.unosquare.finalapp;
 
+import java.util.ArrayList;
+
 /**
  * Created by admin on 18/10/2014.
  */
@@ -32,9 +34,14 @@ public class ModelGet {
                 }
 
                 public class Item{
-                    private Forecast forecast[];
+                    //private Forecast forecast[];
+                    private ArrayList<Forecast> forecast;
 
-                    public Forecast[] getForecast() {
+                    /*public Forecast[] getForecast() {
+                        return forecast;
+                    }*/
+
+                    public ArrayList<Forecast> getForecast() {
                         return forecast;
                     }
 

@@ -28,6 +28,7 @@ public class PrincipalActivity extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private BothViewsFragment bothviewsf;
     FragmentManager manager;
+    private int addCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,11 @@ public class PrincipalActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(PrincipalActivity.this, "Menu item:"+DrawerAdapter.menu[position],Toast.LENGTH_SHORT).show();
+                //Toast.makeText(PrincipalActivity.this, "Menu item:"+DrawerAdapter.menu[position],Toast.LENGTH_SHORT).show();
                 drawer.closeDrawers();
                 String menustrvalue = ""+DrawerAdapter.menu[position];
+                getActionBar().setSubtitle(getResources().getString(R.string.principal_subtitle));
+
                 switch (position) {
                     case 0:
                         manager.beginTransaction().replace(R.id.content_frame, bothviewsf.getInstance(R.color.white, menustrvalue), "ListViewFragm").commit();
@@ -112,47 +115,75 @@ public class PrincipalActivity extends Activity {
 
         switch(item.getItemId()) {
             case R.id.menu_settings:
-                getWebServicesResult(getResources().getString(R.string.menu_navbar_opc1));
+                getWebServicesResult(getResources().getString(R.string.menu_navbar_opc1), false);
                 getActionBar().setSubtitle(getResources().getString(R.string.menu_navbar_opc1));
             break;
 
             case R.id.menu_help:
+                manageAddCount(false);
                 Intent intentH = new Intent(PrincipalActivity.this, AboutActivity.class);
                 getActionBar().setSubtitle(getResources().getString(R.string.menu_navbar_opc2));
                 startActivity(intentH);
                 break;
 
             case R.id.menu_return:
+                manageAddCount(false);
+                Toast.makeText(PrincipalActivity.this, getResources().getString(R.string.menu_navbar_opc5), Toast.LENGTH_SHORT).show();
                 getActionBar().setSubtitle(getResources().getString(R.string.menu_navbar_opc5));
                 moveTaskToBack(true);
                 PrincipalActivity.this.finish();
                 break;
 
             case R.id.menu_replace:
-                getWebServicesResult(getResources().getString(R.string.menu_navbar_opc3));
+                getWebServicesResult(getResources().getString(R.string.menu_navbar_opc3), false);
                 getActionBar().setSubtitle(getResources().getString(R.string.menu_navbar_opc3));
+                break;
+
+            case R.id.menu_add:
+                getWebServicesResult(getResources().getString(R.string.menu_navbar_opc4), true);
                 break;
         }
 
         return super.onMenuItemSelected(featureId, item);
     }
 
-    private void getWebServicesResult(String section_name) {
-        Toast.makeText(this, "Click "+section_name, Toast.LENGTH_SHORT).show();
-        NetServices ntserv = new NetServices(new OnBackgroundTaskCallback() {
-            @Override
-            public void onTaskCompleted(String response) {
-                //Toast.makeText(MyActivity.this, "Response: "+response, Toast.LENGTH_SHORT).show();
-                parseResponse(response);
+    private void getWebServicesResult(String section_name, boolean addCount) {
+        //Toast.makeText(this, "Click "+section_name, Toast.LENGTH_SHORT).show();
 
-            }
-            @Override
-            public void onTaskError(String error) {
-                Toast.makeText(PrincipalActivity.this, "Error: "+error, Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (manager.findFragmentByTag("ListViewFragm") != null || manager.findFragmentByTag("GridViewFragm") != null || manager.findFragmentByTag("BothViesFragm") != null) {
+            findViewById(R.id.listViewBoth_frg).setVisibility(View.GONE);
+            findViewById(R.id.gridViewBoth_frg).setVisibility(View.GONE);
 
-        ntserv.execute(NetServices.WS_CALL_GET);
+            manageAddCount(addCount); //if true, increment addCount else set it 0
+
+            NetServices ntserv = new NetServices(new OnBackgroundTaskCallback() {
+                @Override
+                public void onTaskCompleted(String response) {
+                    //Toast.makeText(MyActivity.this, "Response: "+response, Toast.LENGTH_SHORT).show();
+                    parseResponse(response);
+
+                }
+
+                @Override
+                public void onTaskError(String error) {
+                    Toast.makeText(PrincipalActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            ntserv.setProgressBarBack(new FunctionProgressBar() {
+                @Override
+                public void showProgress() {
+                    showProgressBar();
+                }
+
+                @Override
+                public void hideProgress() {
+                    hideProgressBar();
+                }
+            });
+
+            ntserv.execute(NetServices.WS_CALL_GET);
+        }
 
     }
 
@@ -160,12 +191,13 @@ public class PrincipalActivity extends Activity {
         Gson gson = new Gson();
         ModelGet model = gson.fromJson(response, ModelGet.class);
 
-        ForecastAdapter adapter = new ForecastAdapter(PrincipalActivity.this, model.getQuery().getResults().getChannel().getItem().getForecast());
+        ForecastAdapter adapter = new ForecastAdapter(PrincipalActivity.this, model.getQuery().getResults().getChannel().getItem().getForecast(), addCount);
 
         if (manager.findFragmentByTag("ListViewFragm") != null) {
             if (manager.findFragmentByTag("ListViewFragm").isVisible()) {
                 list = (ListView) findViewById(R.id.listViewBoth_frg);
                 list.setAdapter(adapter);
+                list.setVisibility(View.VISIBLE);
 
                 grid = (GridView) findViewById(R.id.gridViewBoth_frg);
                 grid.setVisibility(View.GONE);
@@ -179,6 +211,7 @@ public class PrincipalActivity extends Activity {
 
                 grid = (GridView) findViewById(R.id.gridViewBoth_frg);
                 grid.setAdapter(adapter);
+                grid.setVisibility(View.VISIBLE);
             }
         }
 
@@ -186,12 +219,29 @@ public class PrincipalActivity extends Activity {
             if (manager.findFragmentByTag("BothViesFragm").isVisible()) {
                 list = (ListView) findViewById(R.id.listViewBoth_frg);
                 list.setAdapter(adapter);
+                list.setVisibility(View.VISIBLE);
 
                 grid = (GridView) findViewById(R.id.gridViewBoth_frg);
                 grid.setAdapter(adapter);
+                grid.setVisibility(View.VISIBLE);
             }
         }
 
     }
 
+    private void showProgressBar() {
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
+    }
+
+    private void manageAddCount(boolean opc) {
+        if (opc) {
+            addCount++;
+        } else {
+            addCount = 0;
+        }
+    }
 }

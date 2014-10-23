@@ -8,21 +8,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by admin on 18/10/2014.
  */
 public class ForecastAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private ModelGet.Query.Results.Channel.Item.Forecast[] data;
+    private ArrayList<ModelGet.Query.Results.Channel.Item.Forecast> data;
+    private ArrayList<ModelGet.Query.Results.Channel.Item.Forecast> dataClone;
+    private int addCount;
 
-    public ForecastAdapter(Context ctx, ModelGet.Query.Results.Channel.Item.Forecast[] data) {
+    public ForecastAdapter(Context ctx, ArrayList<ModelGet.Query.Results.Channel.Item.Forecast> data, int addCount) {
         inflater = LayoutInflater.from(ctx);
         this.data = data;
+        this.addCount = addCount;
+        addRecords();
     }
 
     @Override
     public int getCount() {
-        return data.length;
+        return data.size();
     }
 
     @Override
@@ -47,7 +54,7 @@ public class ForecastAdapter extends BaseAdapter {
     private void setText(ViewHolder holder, int pos) {
         ModelGet.Query.Results.Channel.Item.Forecast item = (ModelGet.Query.Results.Channel.Item.Forecast) getItem(pos);
 
-        holder.text_code.setText(item.getCode());
+        holder.text_code.setText(item.getCode()+" "+Integer.toString(addCount));
         holder.text_date.setText(item.getText());
         holder.text_day.setText(item.getDay());
         holder.text_high.setText(item.getHigh());
@@ -75,11 +82,23 @@ public class ForecastAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return data[i];
+        return data.get(i);
     }
 
     @Override
     public long getItemId(int i) {
         return 0;
     }
+
+    private void addRecords() {
+        dataClone = new ArrayList<ModelGet.Query.Results.Channel.Item.Forecast>(data);
+        if (addCount > 0) {
+            for (int x = 0; x < addCount; x++) {
+                for (int i = 0; i < dataClone.size(); i++) {
+                    data.add(dataClone.get(i));
+                }
+            }
+        }
+    }
+
 }
