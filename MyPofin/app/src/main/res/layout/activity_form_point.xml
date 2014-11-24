@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:stackFromBottom="true"
+    android:transcriptMode="alwaysScroll" >
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_field1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/edit_title_point_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_field1"
+            android:layout_below="@+id/txv_title"/>
+
+        <TextView
+            android:id="@+id/txv_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_field2"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_title_point_form"/>
+
+        <EditText
+            android:id="@+id/edit_latitude_point_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_field2"
+            android:layout_below="@+id/txv_latitude"/>
+
+        <TextView
+            android:id="@+id/txv_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_field3"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_latitude_point_form"/>
+
+        <EditText
+            android:id="@+id/edit_longitude_point_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_field3"
+            android:layout_below="@+id/txv_longitude"/>
+
+        <TextView
+            android:id="@+id/txv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_field4"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/edit_longitude_point_form"/>
+
+        <EditText
+            android:id="@+id/edit_comment_point_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/txt_field4"
+            android:layout_below="@+id/txv_comment"/>
+
+        <Button
+            android:id="@+id/btn_save_point_form"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/btn_save_point_lbl"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentLeft="true"
+            android:elegantTextHeight="false"
+            android:layout_below="@+id/edit_comment_point_form"/>
+
+        <Button
+            android:id="@+id/btn_cancel_point_form"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/btn_cancel_point_lbl"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentRight="true"
+            android:elegantTextHeight="false"
+            android:layout_below="@+id/edit_comment_point_form"/>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar_Form"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal|clip_horizontal"
+            android:layout_weight="1" />
+
+    </RelativeLayout>
+
+</ScrollView>
