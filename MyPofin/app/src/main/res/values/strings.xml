@@ -51,5 +51,6 @@
     <string name="title_dialog_delete">Confirm Delete...</string>
     <string name="delete_question">Are you sure you want delete this point?</string>
     <string name="info_login_check">Remember Information</string>
+    <string name="dtl_link_gotomap">go to the map</string>
 
 </resources>

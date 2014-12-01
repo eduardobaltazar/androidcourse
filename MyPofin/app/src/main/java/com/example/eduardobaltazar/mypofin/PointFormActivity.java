@@ -161,11 +161,13 @@ public class PointFormActivity extends Activity {
                         @Override
                         public void onTaskCompleted(String response) {
                             parseResponseUpPoint(response);
-                            sessionVariables.setPointsList(new ArrayList<PointModel>());
-                            if (process == NetServices.WS_CALL_PROCESS_UPDATE) {
-                                NavUtils.navigateUpFromSameTask(PointFormActivity.this);
-                            } else {
-                                NavUtils.navigateUpTo(PointFormActivity.this, new Intent(PointFormActivity.this, PrincipalActivity.class));
+                            if (response.indexOf("Error") <= -1) {
+                                sessionVariables.setPointsList(new ArrayList<PointModel>());
+                                if (process == NetServices.WS_CALL_PROCESS_UPDATE) {
+                                    NavUtils.navigateUpFromSameTask(PointFormActivity.this);
+                                } else {
+                                    NavUtils.navigateUpTo(PointFormActivity.this, new Intent(PointFormActivity.this, PrincipalActivity.class));
+                                }
                             }
                         }
 

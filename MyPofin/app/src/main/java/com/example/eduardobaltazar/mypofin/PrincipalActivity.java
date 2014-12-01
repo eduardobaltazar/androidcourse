@@ -150,6 +150,18 @@ public class PrincipalActivity extends FragmentActivity implements GoogleMap.OnM
             }
         }
 
+        if (sessionVariables.getMarkerLatLng() != null) {
+            CameraUpdate center = CameraUpdateFactory.newLatLng(sessionVariables.getMarkerLatLng());
+            CameraUpdate czoom = CameraUpdateFactory.zoomTo(zoom+4);
+
+            mMap.moveCamera(center);
+            mMap.animateCamera(czoom);
+
+            sessionVariables.setMarkerLatLng(null);
+        } else {
+            sessionVariables.setMarkerLatLng(null);
+        }
+
     }
 
     private void setClicks() {
@@ -256,10 +268,11 @@ public class PrincipalActivity extends FragmentActivity implements GoogleMap.OnM
 
     @Override
     public boolean onMarkerClick(Marker arg0) {
+        LatLng posMarker = arg0.getPosition();
+
         if(arg0.getTitle().equals("New Marker")) {
-            LatLng posNew = arg0.getPosition();
-            final double coordLat = posNew.latitude;
-            final double coordLong = posNew.longitude;
+            final double coordLat = posMarker.latitude;
+            final double coordLong = posMarker.longitude;
             //Toast.makeText(this, "on click :" + coordLat + " dragLong :" + coordLong, Toast.LENGTH_SHORT).show();
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -292,6 +305,7 @@ public class PrincipalActivity extends FragmentActivity implements GoogleMap.OnM
 
         } else {
             arg0.showInfoWindow();
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(posMarker));
         }
         return true;
     }

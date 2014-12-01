@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -64,8 +65,6 @@ public class PointsListActivity extends Activity {
         } else {
             setListAdapater();
         }
-
-
     }
 
     private void parseResponsePointsList(String response) {
@@ -123,11 +122,22 @@ public class PointsListActivity extends Activity {
         Button DButton_cancel = (Button) dialog.findViewById(R.id.btn_point_cancel);
         Button DButton_edit = (Button) dialog.findViewById(R.id.btn_point_edit);
         Button DButton_delete = (Button) dialog.findViewById(R.id.btn_point_delete);
+        TextView link_gotomap = (TextView) dialog.findViewById(R.id.link_gotomap);
 
         DButton_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        link_gotomap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng tmpLatLng = new LatLng(Double.parseDouble(pm.getLatitude()), Double.parseDouble(pm.getLongitude()));
+                sessionVariables.setMarkerLatLng(tmpLatLng);
+                dialog.dismiss();
+                NavUtils.navigateUpFromSameTask(PointsListActivity.this);
             }
         });
 
