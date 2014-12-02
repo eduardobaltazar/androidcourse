@@ -156,7 +156,6 @@ public class PrincipalActivity extends FragmentActivity implements GoogleMap.OnM
 
             mMap.moveCamera(center);
             mMap.animateCamera(czoom);
-
             sessionVariables.setMarkerLatLng(null);
         } else {
             sessionVariables.setMarkerLatLng(null);
